@@ -208,7 +208,7 @@ But in the case of complex objects, specially
 with Maps and Lists, it can happens, that you'll need to write
 own serializer / deserializer for Gson
 
-#TODOs
+# TODOs
 
 There are some TODOs, that are intentionally not finished, because
 time limitation
