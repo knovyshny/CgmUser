@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import javax.validation.Valid;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -27,6 +30,8 @@ import java.util.UUID;
  */
 public class BaseCRUDController<TIncomingDto extends BaseIncomingDto, TOutcomingDto extends BaseOutcomingDto, TEntity extends BaseEntity> {
 
+    private final Logger logger = LogManager.getLogger(BaseCRUDController.class);
+
     // intentionally used @Autowired in this place
     // to avoid, that child classes need to know about
     // IObjectCopyService in constructor
@@ -40,19 +45,19 @@ public class BaseCRUDController<TIncomingDto extends BaseIncomingDto, TOutcoming
 
     public BaseCRUDController(IBaseCRUDService<TEntity> service) {
         this.service = service;
-        this.outcomingDtoClass = (Class)((ParameterizedType) getClass()
+        this.outcomingDtoClass = (Class) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[1];
-        this.entityClass = (Class)((ParameterizedType) getClass()
+        this.entityClass = (Class) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[2];
     }
 
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<TOutcomingDto>> findAllIncomingDto() {
         List<TOutcomingDto> result;
-        try{
+        try {
             result = getObjectCopyService().copyFromEntitiesToOutcomingDtos(service.findAll(), outcomingDtoClass);
-        }
-        catch( Exception eError ){
+        } catch (Exception eError) {
+            logger.error("Cannot execute findAllIncomingDto", eError);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return ResponseEntity.ok(result);
@@ -61,26 +66,26 @@ public class BaseCRUDController<TIncomingDto extends BaseIncomingDto, TOutcoming
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<TOutcomingDto> findIncomingDtoById(@NonNull @PathVariable final String Id) {
         TOutcomingDto result = null;
-        try{
+        try {
             var foundEntity = service.findById(Id);
-            if ( foundEntity != null ) {
+            if (foundEntity != null) {
                 result = getObjectCopyService().copyFromEntityToOutcomingDto(foundEntity, outcomingDtoClass);
             }
-        }
-        catch( Exception eError ){
+        } catch (Exception eError) {
+            logger.error("Cannot execute findIncomingDtoById", eError);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return  result != null ? ResponseEntity.ok(result) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return result != null ? ResponseEntity.ok(result) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Boolean> delete(@NonNull @PathVariable final String Id) {
-        try{
-            if ( !service.remove(Id) ) {
+        try {
+            if (!service.remove(Id)) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        }
-        catch( Exception eError ){
+        } catch (Exception eError) {
+            logger.error("Cannot execute delete", eError);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(HttpStatus.OK);
@@ -88,20 +93,20 @@ public class BaseCRUDController<TIncomingDto extends BaseIncomingDto, TOutcoming
 
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<TOutcomingDto> addIncomingDto(@Valid @RequestBody TIncomingDto incomingDto) {
-        if (incomingDto.getId() == null){
+        if (incomingDto.getId() == null) {
             incomingDto.setId(UUID.randomUUID().toString());
         }
         TOutcomingDto result = null;
-        try{
+        try {
             // check if resource id already exists and return BAD_REUEST in this case
-            if ( service.findById(incomingDto.getId()) != null ) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (service.findById(incomingDto.getId()) != null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
             var savedEntity = service.save(getObjectCopyService().copyFromIncomingDtoToEntity(incomingDto, entityClass));
-            if (savedEntity != null){
+            if (savedEntity != null) {
                 result = getObjectCopyService().copyFromEntityToOutcomingDto(savedEntity, outcomingDtoClass);
             }
-        }
-        catch( Exception eError ){
+        } catch (Exception eError) {
+            logger.error("Cannot execute addIncomingDto", eError);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -112,16 +117,17 @@ public class BaseCRUDController<TIncomingDto extends BaseIncomingDto, TOutcoming
     public ResponseEntity<TOutcomingDto> updateIncomingDto(@PathVariable final String Id, @Valid @RequestBody TIncomingDto incomingDto) {
 
         // in the case if Id from request don't suits to Id from IncomingDto return BAD_REQUEST
-        if(!Objects.equals(Id, incomingDto.getId()) && incomingDto.getId() != null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (!Objects.equals(Id, incomingDto.getId()) && incomingDto.getId() != null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         incomingDto.setId(Id);
         TOutcomingDto result = null;
-        try{
+        try {
             var savedEntity = service.replace(getObjectCopyService().copyFromIncomingDtoToEntity(incomingDto, entityClass));
-            if (savedEntity != null){
+            if (savedEntity != null) {
                 result = getObjectCopyService().copyFromEntityToOutcomingDto(savedEntity, outcomingDtoClass);
             }
-        }
-        catch( Exception eError ){
+        } catch (Exception eError) {
+            logger.error("Cannot execute updateIncomingDto", eError);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

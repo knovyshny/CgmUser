@@ -1,12 +1,14 @@
 package de.cgm.test.base.lang.util;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import de.cgm.test.base.model.BaseOutcomingDto;
 import de.cgm.test.base.model.BaseEntity;
 import de.cgm.test.base.model.BaseIncomingDto;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -39,7 +41,7 @@ public final class ObjectCopyService implements IObjectCopyService {
     @Override
     @NonNull
     public <TEntity extends BaseEntity, TOutcomingDto extends BaseOutcomingDto> List<TOutcomingDto> copyFromEntitiesToOutcomingDtos(@NonNull List<TEntity> entities, Class<TOutcomingDto> outcomingDtoClass){
-        //TODO find a better solution to use generics with lists
-        return entities.stream().map( tEntity -> copyFromEntityToOutcomingDto(tEntity, outcomingDtoClass) ).toList();
+        final Type outcomingListType = new TypeToken<List<TOutcomingDto>>(){}.getType();
+        return gson.fromJson(gson.toJson(entities), outcomingListType);
     }
 }
