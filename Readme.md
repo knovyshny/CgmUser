@@ -208,6 +208,14 @@ But in the case of complex objects, specially
 with Maps and Lists, it can happens, that you'll need to write
 own serializer / deserializer for Gson
 
+# Spring Actuator
+
+Is used to observe different application's metrics
+Call actuator in your browser after starting of application
+and observe metrics and other statistics
+
+http://localhost:8080/actuator
+
 # TODOs
 
 There are some TODOs, that are intentionally not finished, because
@@ -218,8 +226,7 @@ time limitation
 it is necessary additionally to Http Status Code provide validation messages too
    ( except POST /users/authenticateUser ).
 Currently in the case of not valid Rest Call, you just get BAD_REQUEST ( HttpStatus 400 ) back.
-3) REST API should be additionally protected with Rate Limiting and for example Spring Actuator
-should be used for the monitoring
+3) REST API should be additionally protected with Rate Limiting
 4) In some case I used deprected Method of Spring
 5) Business logic should be extended to avoid saving of "duplicated" users with same login
 6) Better Swagger / Swagger UI support with proper default / example values
