@@ -1,0 +1,24 @@
+type Query {
+    userById(id: ID): User
+    authenticateUser(login: String, password: String): User
+}
+
+type User{
+    id: ID
+    login: String!
+    name: String
+    surname: String
+}
+
+input IncomingUser{
+    login: String!
+    password: String!
+    name: String
+    surname: String
+}
+
+type Mutation {
+    createUser(user: IncomingUser) : User!
+    updateUser(id: ID, user: IncomingUser) : User!
+    deleteUser(id: ID) : Boolean
+}
