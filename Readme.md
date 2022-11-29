@@ -43,7 +43,7 @@ Just use IDE of your choice to build / start the application
 ## Java Version
 
 Application was written and tested with Java 18 ( OpenJDK )
-But because I used only some of new Java feaures
+But because I used only some of new Java features
 like 
 
 ```cs
@@ -77,7 +77,7 @@ with
 ```
 instead. I hope, that it is ok in this case.
 
-HATEOAS is not suported, because of lack of requirements and because
+HATEOAS is not supported, because of lack of requirements and because
 in many cases it is just too heavy.
 
 ## Swagger UI
