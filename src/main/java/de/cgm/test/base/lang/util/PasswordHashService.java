@@ -1,9 +1,9 @@
 package de.cgm.test.base.lang.util;
 
+import jakarta.xml.bind.DatatypeConverter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;

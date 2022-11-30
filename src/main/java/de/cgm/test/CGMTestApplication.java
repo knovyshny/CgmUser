@@ -4,11 +4,13 @@ import de.cgm.test.api.user.model.entity.User;
 import de.cgm.test.api.user.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
+@EnableAutoConfiguration
 @EnableMongoRepositories
 @EnableConfigurationProperties
 public class CGMTestApplication implements CommandLineRunner{

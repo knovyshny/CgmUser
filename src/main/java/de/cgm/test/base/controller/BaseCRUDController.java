@@ -5,6 +5,7 @@ import de.cgm.test.base.lang.util.IObjectCopyService;
 import de.cgm.test.base.model.BaseEntity;
 import de.cgm.test.base.model.BaseIncomingDto;
 import de.cgm.test.base.service.IBaseCRUDService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import javax.validation.Valid;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Objects;

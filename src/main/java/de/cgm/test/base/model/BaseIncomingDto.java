@@ -1,8 +1,8 @@
 package de.cgm.test.base.model;
 
+import jakarta.validation.constraints.Size;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class BaseIncomingDto implements Serializable {

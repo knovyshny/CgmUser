@@ -1,5 +1,5 @@
 type Query {
-    userById(id: ID): User
+    userById(id: ID!): User
     authenticateUser(login: String, password: String): User
 }
 
@@ -18,7 +18,7 @@ input IncomingUser{
 }
 
 type Mutation {
-    createUser(user: IncomingUser) : User!
-    updateUser(id: ID, user: IncomingUser) : User!
-    deleteUser(id: ID) : Boolean
+    createUser(user: IncomingUser!) : User!
+    updateUser(id: ID, user: IncomingUser!) : User!
+    deleteUser(id: ID!) : Boolean
 }

@@ -216,6 +216,30 @@ and observe metrics and other statistics
 
 http://localhost:8080/actuator
 
+## GraphQL support
+
+GraphQL support was introduced 
+you can play with 
+
+```cs
+de.cgm.test.api.user.controller.UserGraphQLController
+```
+that allow usage of a graphql query
+
+Just start http://localhost:8080/graphiql?path=/graphql
+
+and feel free to call something like this:
+
+```cs
+{
+   userById(id: "idOfYourChoice")
+   {
+      id
+      login
+   }
+}
+```
+
 # TODOs
 
 There are some TODOs, that are intentionally not finished, because

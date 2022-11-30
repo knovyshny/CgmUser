@@ -1,12 +1,12 @@
 package de.cgm.test.api.user.model.dto;
 
 import de.cgm.test.base.model.BaseIncomingDto;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class UserIncomingDto extends BaseIncomingDto {

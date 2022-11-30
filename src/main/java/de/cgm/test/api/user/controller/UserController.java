@@ -7,12 +7,12 @@ import de.cgm.test.base.controller.BaseCRUDController;
 import de.cgm.test.api.user.model.dto.AuthentificationDto;
 import de.cgm.test.api.user.service.IUserService;
 import de.cgm.test.base.lang.util.IPasswordHashService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
